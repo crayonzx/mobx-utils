@@ -4,7 +4,7 @@ export interface Options {
   mobxPackage: string;
 }
 
-const transformToMobxFlow = 'transformToMobxFlow';
+const transformIdentifier = 'flow';
 
 /** ts-jest calls this method for their astTransformers */
 export function factory() {
@@ -17,8 +17,8 @@ export const name = 'ts-transform-async-to-mobx-flow';
 export const version = 1;
 
 /**
- * 1. Look for functions marked as @transformToMobxFlow or transformToMobxFlow(...)
- * 2. Transform them to generator functions wrapped into mobx.flow
+ * 1. Look for async functions marked as @flow or flow(...)
+ * 2. Transform them to generator functions
  * 3. Adds import to mobx.flow if there's anything transformed
  */
 export default function createTransformer({
@@ -32,14 +32,15 @@ function visitSourceFile(
   source: ts.SourceFile,
   context: ts.TransformationContext,
 ): ts.SourceFile {
+  let transformed = false;
+
   const mobxNamespaceImport = ts.createFileLevelUniqueName('mobx');
   const flowExpression = ts.createPropertyAccess(mobxNamespaceImport, ts.createIdentifier('flow'));
-  let transformed = false;
 
   const sourceWithMobxImport = addImportMobxStatement(source, mobxPackage, mobxNamespaceImport);
 
   const visitor: ts.Visitor = node => {
-    if (checkTransformToMobxFlowCallExpression(node)) {
+    if (checkFlowCallExpression(node)) {
       const fn = node.arguments[0];
 
       if (!isAsyncFunction(fn)) {
@@ -65,7 +66,7 @@ function visitSourceFile(
 
     if (
       ts.isMethodDeclaration(node) &&
-      hasTransformToMobxFlowDecorators(node.decorators) &&
+      hasFlowDecorators(node.decorators) &&
       node.body
     ) {
       if (!isAsyncFunction(node)) {
@@ -88,7 +89,7 @@ function visitSourceFile(
 
     if (
       ts.isPropertyDeclaration(node) &&
-      hasTransformToMobxFlowDecorators(node.decorators) &&
+      hasFlowDecorators(node.decorators) &&
       node.initializer
     ) {
       const fn = node.initializer;
@@ -170,23 +171,23 @@ function addImportMobxStatement(
 }
 
 /**
- *  Checks whether the node is a method call wrapped into transformToMobxFlow method
+ *  Checks whether the node is a method call wrapped into flow method
  * @example
 ```
-const a = transfromToMobxFlow(async (input) => {
+const a = flow(async (input) => {
   await this.delay(this.input)
 });
 // or
-const b = transfromToMobxFlow(async function (input) {
+const b = flow(async function (input) {
   await this.delay(this.input)
 });
 ```
  */
-function checkTransformToMobxFlowCallExpression(node: ts.Node): node is ts.CallExpression {
+function checkFlowCallExpression(node: ts.Node): node is ts.CallExpression {
   return (
     ts.isCallExpression(node) &&
     ts.isIdentifier(node.expression) &&
-    node.expression.text === transformToMobxFlow
+    node.expression.text === transformIdentifier
   );
 }
 
@@ -225,7 +226,7 @@ function transformFunction(
  * A helper to update method declaration and strip the async keyword from modifiers
  */
 function transformMethodDeclaration(node: ts.MethodDeclaration, newFunctionBlock: ts.Block) {
-  const otherDecorators = filterOutTransformToMobxFlowDecorators(node.decorators);
+  const otherDecorators = filterOutFlowDecorators(node.decorators);
 
   return ts.updateMethod(
     node,
@@ -248,7 +249,7 @@ function transformPropertyDeclaration(
   node: ts.PropertyDeclaration,
   newFunctionBlock: ts.ArrowFunction | ts.FunctionExpression,
 ) {
-  const otherDecorators = filterOutTransformToMobxFlowDecorators(node.decorators);
+  const otherDecorators = filterOutFlowDecorators(node.decorators);
 
   return ts.updateProperty(
     node,
@@ -310,7 +311,7 @@ function createWrappedFunctionBlock(
  * @example
  ```ts
 // in:
-const fn = transformToMobxFlow(async (input) => {
+const fn = flow(async (input) => {
   await this.delay(this.input)
 })
 // out:
@@ -318,7 +319,7 @@ const fn = (input) => {
   return flow_1(function* fn() { // notice the function name is set here
     yield this.delay(this.input)
   }).call(this);
-} 
+}
 ```
  */
 function resolveFunctionName(node: ts.Node, fn: ts.FunctionExpression | ts.ArrowFunction) {
@@ -335,11 +336,11 @@ function resolveFunctionName(node: ts.Node, fn: ts.FunctionExpression | ts.Arrow
   return name;
 }
 
-function hasTransformToMobxFlowDecorators(decorators: ts.NodeArray<ts.Decorator> | undefined) {
+function hasFlowDecorators(decorators: ts.NodeArray<ts.Decorator> | undefined) {
   if (
     decorators &&
     decorators.filter(
-      x => ts.isIdentifier(x.expression) && x.expression.text === transformToMobxFlow,
+      x => ts.isIdentifier(x.expression) && x.expression.text === transformIdentifier,
     ).length > 0
   ) {
     return true;
@@ -348,17 +349,17 @@ function hasTransformToMobxFlowDecorators(decorators: ts.NodeArray<ts.Decorator>
 }
 
 /**
- * Returns all the decorators except for @transformToMobxFlow
+ * Returns all the decorators except for @flow
  * Ensures to return undefined if the array is empty
  */
-function filterOutTransformToMobxFlowDecorators(
+function filterOutFlowDecorators(
   decorators: ts.NodeArray<ts.Decorator> | undefined,
 ): ts.Decorator[] | undefined {
   return (
     decorators &&
     decorators.reduce<ts.Decorator[] | undefined>((acc, x) => {
-      // skip @transformToMobxFlow decorator
-      if (ts.isIdentifier(x.expression) && x.expression.text === transformToMobxFlow) {
+      // skip @flow decorator
+      if (ts.isIdentifier(x.expression) && x.expression.text === transformIdentifier) {
         return acc;
       }
 

@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Converts function marked as transformToMobxFlow 1`] = `
+exports[`Converts function marked as flow 1`] = `
 "import * as mobx from \\"mobx\\";
-/// <reference path=\\"../../transformToMobxFlow.d.ts\\" />
+/// <reference path=\\"../../flow.d.ts\\" />
 declare let randomDecorator: any;
 export const fn = (input) => { return mobx.flow(function* fn() {
     return yield Promise.resolve(input);
@@ -42,7 +42,7 @@ export class Test {
 "
 `;
 
-exports[`Does not convert function not marked as transformToMobxFlow 1`] = `
+exports[`Does not convert function not marked as flow 1`] = `
 "export async function fn(input: string) {
     return await Promise.resolve(input);
 }

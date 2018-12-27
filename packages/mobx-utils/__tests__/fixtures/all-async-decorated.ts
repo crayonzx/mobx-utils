@@ -1,20 +1,20 @@
-/// <reference path="../../transformToMobxFlow.d.ts" />
+/// <reference path="../../flow.d.ts" />
 declare let randomDecorator: any;
 
-export const fn = transformToMobxFlow(async input => {
+export const fn = flow(async input => {
   return await Promise.resolve(input);
 });
-export const fn2 = transformToMobxFlow(async function test(input) {
+export const fn2 = flow(async function test(input) {
   return await Promise.resolve(input);
 });
-export const fn3 = transformToMobxFlow(async function(input) {
+export const fn3 = flow(async function(input) {
   return await Promise.resolve(input);
 });
 export class Test {
   test: number = 0;
   constructor() {
-    var nestedFlow = transformToMobxFlow(async () => {
-      var anotherNestedFlow = transformToMobxFlow(async () => {
+    var nestedFlow = flow(async () => {
+      var anotherNestedFlow = flow(async () => {
         this.test = 5;
         await Promise.resolve(100);
       });
@@ -23,20 +23,20 @@ export class Test {
     });
   }
 
-  @transformToMobxFlow
+  @flow
   async func() {
     this.test = 5;
     await Promise.resolve(100);
   }
 
-  @transformToMobxFlow
+  @flow
   funcBound = async () => {
     this.test = 5;
     await Promise.resolve(100);
   };
 
   @randomDecorator
-  @transformToMobxFlow
+  @flow
   funcNonBound = async function(this: Test) {
     this.test = 5;
     await Promise.resolve(100);

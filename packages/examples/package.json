@@ -17,6 +17,6 @@
     "typescript": "^3.1.1"
   },
   "dependencies": {
-    "@crayonzx/mobx-utils": "./packages/mobx-utils"
+    "@crayonzx/mobx-utils": "*"
   }
 }

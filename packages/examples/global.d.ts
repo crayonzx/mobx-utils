@@ -1,1 +1,1 @@
-/// <reference path="node_modules/@crayonzx/mobx-utils/transformToMobxFlow.d.ts" />
+import "@crayonzx/mobx-utils/flow";

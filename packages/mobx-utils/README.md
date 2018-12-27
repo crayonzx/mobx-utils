@@ -32,15 +32,15 @@ This transfomer is created to allow usage of `flow` with `async` functions in or
 #### Input
 
 ```ts
-/// <reference path="node_modules/ts-transform-async-to-mobx-flow/transformToMobxFlow.d.ts" />
-const fn = transformToMobxFlow(async input => {
+/// <reference path="node_modules/ts-transform-async-to-mobx-flow/flow.d.ts" />
+const fn = flow(async input => {
   return await Promise.resolve(input);
 });
 
 class Test {
   value: string = '';
 
-  @transformToMobxFlow
+  @flow
   async func(input: string) {
     this.value = await Promise.resolve(input);
   }
@@ -80,13 +80,13 @@ yarn add ts-transform-async-to-mobx-flow -D
 
 ## How to use
 
-You may need to add a reference to this package's typescript definition file in order to declare the global `transformToMobxFlow` function:
+You may need to add a reference to this package's typescript definition file in order to declare the global `flow` function:
 
 ```ts
-/// <reference path="node_modules/ts-transform-async-to-mobx-flow/transformToMobxFlow.d.ts" />
+/// <reference path="node_modules/ts-transform-async-to-mobx-flow/flow.d.ts" />
 ```
 
-It can be added to a `global.d.ts` file to access `transformToMobxFlow` in all the project files.
+It can be added to a `global.d.ts` file to access `flow` in all the project files.
 
 ### With [ttypescript](https://github.com/cevek/ttypescript)
 

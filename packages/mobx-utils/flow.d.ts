@@ -1,10 +1,10 @@
-/** 
- * Marks an `async` functions to transform into a generator function wrapped with `mobx.flow` 
- * by [ts-transform-async-to-mobx-flow](https://github.com/AurorNZ/ts-transform-async-to-mobx-flow) 
+/**
+ * Marks an `async` functions to transform into a generator function wrapped with `mobx.flow`
+ * by [ts-transform-async-to-mobx-flow](https://github.com/AurorNZ/ts-transform-async-to-mobx-flow)
  * @example
 ```
 // in:
-const fn = transformToMobxFlow(async (input) => {
+const fn = flow(async (input) => {
   return await callApi(input);
 })
 
@@ -15,21 +15,21 @@ const fn = (input) => {
   return flow_1(function* fn() {
     return yield callApi(input);
   }).call(this);
-} 
+}
 ```
  */
-declare function transformToMobxFlow<T extends (...args: any[]) => Promise<any>>(
+declare function flow<T extends (...args: any[]) => Promise<any>>(
   asyncFunction: T,
 ): T;
 
-/** 
- * Marks an `async` method to transform into a generator function wrapped with `mobx.flow` 
+/**
+ * Marks an `async` method to transform into a generator function wrapped with `mobx.flow`
  * by [ts-transform-async-to-mobx-flow](https://github.com/AurorNZ/ts-transform-async-to-mobx-flow)
  * @example
 ```
 // in:
 class Test {
-  @transformToMobxFlow
+  @flow
   async fn(input) {
     return await callApi(input);
   }
@@ -47,20 +47,20 @@ class Test {
 }
 ```
  */
-declare function transformToMobxFlow<T extends (...args: any[]) => Promise<any>>(
+declare function flow<T extends (...args: any[]) => Promise<any>>(
   target: Object,
   propertyKey: string | symbol,
   descriptor: TypedPropertyDescriptor<T>,
 ): TypedPropertyDescriptor<T> | void;
 
-/** 
- * Marks an `async` property function to transform into a generator function wrapped with `mobx.flow` 
+/**
+ * Marks an `async` property function to transform into a generator function wrapped with `mobx.flow`
  * by [ts-transform-async-to-mobx-flow](https://github.com/AurorNZ/ts-transform-async-to-mobx-flow)
  * @example
 ```
 // in:
 class Test {
-  @transformToMobxFlow
+  @flow
   fn = async (input) => {
     return await callApi(input);
   }
@@ -81,4 +81,4 @@ class Test {
 }
 ```
  */
-declare function transformToMobxFlow(target: Object, propertyKey: string | symbol): void;
+declare function flow(target: Object, propertyKey: string | symbol): void;

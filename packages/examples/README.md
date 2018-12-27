@@ -11,15 +11,15 @@ The `build` command will create the output the `lib` folder
 
 ## Input
 ```ts
-export const fn = transformToMobxFlow(async input => {
+export const fn = flow(async input => {
   return await Promise.resolve(input);
 });
 
-export const fn2 = transformToMobxFlow(async function test(input) {
+export const fn2 = flow(async function test(input) {
   return await Promise.resolve(input);
 });
 
-export const fn3 = transformToMobxFlow(async function(input) {
+export const fn3 = flow(async function(input) {
   return await Promise.resolve(input);
 });
 
@@ -27,25 +27,25 @@ export class Test {
   value: string = '';
 
   constructor() {
-    var nestedFlow = transformToMobxFlow(async () => {
-      var anotherNestedFlow = transformToMobxFlow(async () => {
+    var nestedFlow = flow(async () => {
+      var anotherNestedFlow = flow(async () => {
         return await Promise.resolve('5');
       });
       await anotherNestedFlow();
     });
   }
 
-  @transformToMobxFlow
+  @flow
   async func(input: string) {
     this.value = await Promise.resolve(input);
   }
 
-  @transformToMobxFlow
+  @flow
   funcBound = async (input: string) => {
     this.value =  await Promise.resolve(input);
   };
 
-  @transformToMobxFlow
+  @flow
   funcNonBound = async function(input: string) {
     return await Promise.resolve(input);
   };

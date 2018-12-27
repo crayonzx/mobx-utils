@@ -3,7 +3,7 @@ import fs from 'fs';
 
 import createTransformer from '../src';
 
-it('Does not convert function not marked as transformToMobxFlow', () => {
+it('Does not convert function not marked as flow', () => {
   const path = require.resolve('./fixtures/no-async-decorated');
 
   const source = fs.readFileSync(path).toString('utf8');
@@ -12,7 +12,7 @@ it('Does not convert function not marked as transformToMobxFlow', () => {
   expect(result).toMatchSnapshot();
 });
 
-it('Converts function marked as transformToMobxFlow', () => {
+it('Converts function marked as flow', () => {
   const path = require.resolve('./fixtures/all-async-decorated');
 
   const source = fs.readFileSync(path).toString('utf8');
@@ -21,10 +21,10 @@ it('Converts function marked as transformToMobxFlow', () => {
   expect(result).toMatchSnapshot();
 });
 
-describe('Throw error when cannot parse body of the transformToMobxFlow', () => {
+describe('Throw error when cannot parse body of the flow', () => {
   it('non-async arrow function', () => {
     const source = `
-const fn = transformToMobxFlow(input => {
+const fn = flow(input => {
   this.delay(input);
 });`;
 
@@ -35,7 +35,7 @@ const fn = transformToMobxFlow(input => {
 
   it('non-async function', () => {
     const source = `
-const fn = transformToMobxFlow(function test (input) {
+const fn = flow(function test (input) {
   this.delay(input);
 });`;
 
@@ -46,7 +46,7 @@ const fn = transformToMobxFlow(function test (input) {
 
   it('function passed as parameter', () => {
     const source = `
-const fn = transformToMobxFlow(randomFunction);
+const fn = flow(randomFunction);
 `;
 
     expect(() => getTransformedOutput(source)).toThrowError(
@@ -59,7 +59,7 @@ const fn = transformToMobxFlow(randomFunction);
       const source = `
 class Test {
   // non-async function
-  @transformToMobxFlow
+  @flow
   func() {
     this.test = 5;
   }
@@ -73,7 +73,7 @@ class Test {
       const source = `
   class Test {
     // non-async arrow function
-    @transformToMobxFlow
+    @flow
     funcBound = () => {
       this.test = 5;
     };
@@ -87,7 +87,7 @@ class Test {
       const source = `
   class Test {
     // function passed as parameter
-    @transformToMobxFlow
+    @flow
     funcNonBound = randomFunction;
   }`;
       expect(() => getTransformedOutput(source)).toThrowError(
@@ -102,7 +102,7 @@ it('Flow import does not conflict with declared variables', () => {
 import * as mobx from 'mobx';
 let mobx_1 = '';
 
-const fn = transformToMobxFlow(async input => {
+const fn = flow(async input => {
   return await Promise.resolve(input);
 });
 `;
@@ -120,7 +120,7 @@ const fn = (input) => { return mobx_2.flow(function* fn() {
 
 it('Transpiled correctly to ES5', () => {
   const source = `
-const fn = transformToMobxFlow(async input => {
+const fn = flow(async input => {
   return await Promise.resolve(input);
 });
   `;
@@ -136,7 +136,7 @@ var fn = function (input) { return mobx.flow(function fn() {
     });
 }).call(_this); };
   `;
-  
+
     verifyOutput(getTranspiledOutput(source, ts.ScriptTarget.ES5), expectedOutput);
 })
 
