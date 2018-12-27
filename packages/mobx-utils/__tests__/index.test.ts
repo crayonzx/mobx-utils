@@ -1,7 +1,7 @@
 import ts from 'typescript';
 import fs from 'fs';
 
-import createTransformer from '../src';
+import createTransformer from '../src/ts-transform-async-to-flow-generator';
 
 it('Does not convert function not marked as flow', () => {
   const path = require.resolve('./fixtures/no-async-decorated');

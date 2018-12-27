@@ -1,3 +1,7 @@
+/**
+ * Inspired by [ts-transform-async-to-mobx-flow](https://github.com/AurorNZ/ts-transform-async-to-mobx-flow)
+ */
+
 import ts from 'typescript';
 
 export interface Options {
@@ -12,7 +16,7 @@ export function factory() {
 }
 
 // ts-jest config
-export const name = 'ts-transform-async-to-mobx-flow';
+export const name = 'ts-transform-async-to-flow-generator';
 // ts-jest config: increment this each time the code is modified
 export const version = 1;
 
@@ -393,5 +397,5 @@ function isAsyncFunction(node: ts.Node): boolean {
 }
 
 function errorMessage(message: string): string {
-  return `[ts-transform-async-to-mobx-flow]: ${message}`;
+  return `[${name}]: ${message}`;
 }
