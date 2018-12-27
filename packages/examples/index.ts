@@ -1,3 +1,5 @@
+import { flow } from 'mobx';
+
 export const fn = flow(async input => {
   return await Promise.resolve(input);
 });

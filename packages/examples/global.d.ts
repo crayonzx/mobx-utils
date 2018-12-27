@@ -1,1 +1,1 @@
-import "@crayonzx/mobx-utils/flow";
+import "@crayonzx/mobx-utils";

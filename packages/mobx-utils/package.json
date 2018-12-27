@@ -19,7 +19,7 @@
   },
   "files": [
     "lib",
-    "flow.d.ts"
+    "src"
   ],
   "repository": "git@github.com:aurornz/ts-transform-async-to-mobx-flow.git",
   "scripts": {

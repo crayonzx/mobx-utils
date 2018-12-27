@@ -1,3 +1,14 @@
+// This will not cause an import in the generated JavaScript,
+// but fixes "Invalid module name in augmentation, module 'mobx' cannot be found."
+import {} from 'mobx';
+
+declare module 'mobx/lib/api/flow' {
+type AsyncToCancellable<
+  T extends (...args: any[]) => Promise<any>
+> = T extends (...args: infer P) => Promise<infer R>
+  ? (...args: P) => CancellablePromise<R>
+  : never;
+
 /**
  * Marks an `async` functions to transform into a generator function wrapped with `mobx.flow`
  * by [ts-transform-async-to-mobx-flow](https://github.com/AurorNZ/ts-transform-async-to-mobx-flow)
@@ -18,9 +29,9 @@ const fn = (input) => {
 }
 ```
  */
-declare function flow<T extends (...args: any[]) => Promise<any>>(
+function flow<T extends (...args: any[]) => Promise<any>>(
   asyncFunction: T,
-): T;
+): AsyncToCancellable<T>;
 
 /**
  * Marks an `async` method to transform into a generator function wrapped with `mobx.flow`
@@ -47,11 +58,11 @@ class Test {
 }
 ```
  */
-declare function flow<T extends (...args: any[]) => Promise<any>>(
+function flow<T extends (...args: any[]) => Promise<any>>(
   target: Object,
   propertyKey: string | symbol,
   descriptor: TypedPropertyDescriptor<T>,
-): TypedPropertyDescriptor<T> | void;
+): TypedPropertyDescriptor<T> | void;  // TypedPropertyDescriptor<AsyncToCancellable<T>> | void
 
 /**
  * Marks an `async` property function to transform into a generator function wrapped with `mobx.flow`
@@ -81,4 +92,5 @@ class Test {
 }
 ```
  */
-declare function flow(target: Object, propertyKey: string | symbol): void;
+function flow(target: Object, propertyKey: string | symbol): void;
+}
