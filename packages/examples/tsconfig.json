@@ -7,7 +7,7 @@
     "strict": true,
     "esModuleInterop": true,
     "outDir": "lib",
-    "plugins": [{ "transform": "ts-transform-async-to-mobx-flow", "type": "config" }]
+    "plugins": [{ "transform": "@crayonzx/mobx-utils", "type": "config" }]
   },
   "exclude": ["node_modules"]
 }

@@ -16,6 +16,9 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
+"@crayonzx/mobx-utils@./packages/mobx-utils":
+  version "0.0.8"
+
 "@lerna/add@^3.3.2":
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/@lerna/add/-/add-3.3.2.tgz#767a879ecb117be06414e7e76d4d93bb9934fa57"
@@ -4901,9 +4904,6 @@ ts-node@^6.0.2:
     mkdirp "^0.5.1"
     source-map-support "^0.5.6"
     yn "^2.0.0"
-
-ts-transform-async-to-mobx-flow@./packages/ts-transform-async-to-mobx-flow:
-  version "0.0.1"
 
 tslib@^1.9.0:
   version "1.9.3"
