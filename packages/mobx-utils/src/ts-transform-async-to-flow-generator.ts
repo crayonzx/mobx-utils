@@ -24,7 +24,7 @@ export function factory() {
 // ts-jest config
 export const name = 'ts-transform-async-to-flow-generator';
 // ts-jest config: increment this each time the code is modified
-export const version = 1;
+export const version = 2;
 
 /** Entry for the transformer plugin */
 export default function createTransformer({

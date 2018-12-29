@@ -24,6 +24,7 @@ it('Converts function marked as flow', () => {
 describe('Throw error when cannot parse body of the flow', () => {
   it('non-async arrow function', () => {
     const source = `
+import { flow } from 'mobx';
 const fn = flow(input => {
   this.delay(input);
 });`;
@@ -35,6 +36,7 @@ const fn = flow(input => {
 
   it('non-async function', () => {
     const source = `
+import { flow } from 'mobx';
 const fn = flow(function test (input) {
   this.delay(input);
 });`;
@@ -46,6 +48,7 @@ const fn = flow(function test (input) {
 
   it('function passed as parameter', () => {
     const source = `
+import { flow } from 'mobx';
 const fn = flow(randomFunction);
 `;
 
@@ -57,6 +60,7 @@ const fn = flow(randomFunction);
   describe('class context', () => {
     it('non-async function', () => {
       const source = `
+import { flow } from 'mobx';
 class Test {
   // non-async function
   @flow
@@ -71,6 +75,7 @@ class Test {
 
     it('non-async arrow function', () => {
       const source = `
+  import { flow } from 'mobx';
   class Test {
     // non-async arrow function
     @flow
@@ -85,6 +90,7 @@ class Test {
 
     it('function passed as parameter', () => {
       const source = `
+  import { flow } from 'mobx';
   class Test {
     // function passed as parameter
     @flow
@@ -97,20 +103,16 @@ class Test {
   });
 });
 
-it('Flow import does not conflict with declared variables', () => {
+it('Recognize flow alias import', () => {
   const source = `
-import * as mobx from 'mobx';
-let mobx_1 = '';
-
-const fn = flow(async input => {
+import { flow as asyncAction } from 'mobx';
+const fn = asyncAction(async input => {
   return await Promise.resolve(input);
 });
 `;
   const expectedOutput = `
-import * as mobx_2 from "mobx";
-import * as mobx from 'mobx';
-let mobx_1 = '';
-const fn = (input) => { return mobx_2.flow(function* fn() {
+import { flow as asyncAction } from 'mobx';
+const fn = (input) => { return asyncAction(function* fn() {
     return yield Promise.resolve(input);
 }).call(this); };
 `;
@@ -120,14 +122,17 @@ const fn = (input) => { return mobx_2.flow(function* fn() {
 
 it('Transpiled correctly to ES5', () => {
   const source = `
+import { flow } from 'mobx';
 const fn = flow(async input => {
   return await Promise.resolve(input);
 });
   `;
     const expectedOutput = `
+"use strict";
 var _this = this;
-var mobx = require("mobx");
-var fn = function (input) { return mobx.flow(function fn() {
+Object.defineProperty(exports, "__esModule", { value: true });
+var mobx_1 = require("mobx");
+var fn = function (input) { return mobx_1.flow(function fn() {
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, Promise.resolve(input)];
