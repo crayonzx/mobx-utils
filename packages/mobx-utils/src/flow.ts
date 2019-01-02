@@ -11,7 +11,6 @@ type AsyncToCancellable<
 
 /**
  * Marks an `async` functions to transform into a generator function wrapped with `mobx.flow`
- * by [ts-transform-async-to-mobx-flow](https://github.com/AurorNZ/ts-transform-async-to-mobx-flow)
  * @example
 ```
 // in:
@@ -35,7 +34,6 @@ function flow<T extends (...args: any[]) => Promise<any>>(
 
 /**
  * Marks an `async` method to transform into a generator function wrapped with `mobx.flow`
- * by [ts-transform-async-to-mobx-flow](https://github.com/AurorNZ/ts-transform-async-to-mobx-flow)
  * @example
 ```
 // in:
@@ -66,7 +64,6 @@ function flow<T extends (...args: any[]) => Promise<any>>(
 
 /**
  * Marks an `async` property function to transform into a generator function wrapped with `mobx.flow`
- * by [ts-transform-async-to-mobx-flow](https://github.com/AurorNZ/ts-transform-async-to-mobx-flow)
  * @example
 ```
 // in:

@@ -1,4 +1,4 @@
-import '@crayonzx/mobx-utils';
+import {} from '@crayonzx/mobx-utils';
 import { flow } from 'mobx';
 
 declare let randomDecorator: any;

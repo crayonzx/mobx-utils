@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Converts function marked as flow 1`] = `
-"import '@crayonzx/mobx-utils';
+"import {} from '@crayonzx/mobx-utils';
 import { flow } from 'mobx';
 declare let randomDecorator: any;
 export const fn = (input) => { return flow(function* fn() {

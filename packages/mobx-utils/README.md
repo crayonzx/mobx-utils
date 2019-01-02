@@ -1,9 +1,8 @@
-# ts-transform-async-to-mobx-flow
-
-[![npm](https://img.shields.io/npm/v/ts-transform-async-to-mobx-flow.svg)](https://www.npmjs.com/package/ts-transform-async-to-mobx-flow)
+# @crayonzx/mobx-utils/ts-transform-async-to-flow-generator
 
 Converts typescript async functions into generators wrapped with mobx.flow.
-Inspired by [babel-plugin-mobx-async-action](https://github.com/Strate/babel-plugin-mobx-async-action) and [ts-plugin-mst-async-action](https://github.com/newraina/ts-plugin-mst-async-action)
+Inspired by [babel-plugin-mobx-async-action](https://github.com/Strate/babel-plugin-mobx-async-action), [ts-plugin-mst-async-action](https://github.com/newraina/ts-plugin-mst-async-action) and
+[ts-import-plugin](https://github.com/Brooooooklyn/ts-import-plugin/blob/master/src/index.ts)
 
 ## What it is
 
@@ -32,7 +31,9 @@ This transfomer is created to allow usage of `flow` with `async` functions in or
 #### Input
 
 ```ts
-/// <reference path="node_modules/ts-transform-async-to-mobx-flow/flow.d.ts" />
+import {} from '@crayonzx/mobx-utils';
+import { flow } from 'mobx';
+
 const fn = flow(async input => {
   return await Promise.resolve(input);
 });
@@ -50,43 +51,22 @@ class Test {
 #### Output
 
 ```js
-import { flow as flow1 } from 'mobx';
+import {} from '@crayonzx/mobx-utils';
+import { flow } from 'mobx';
 const fn = input => {
-  return flow_1(function* fn() {
+  return flow(function* fn() {
     return yield Promise.resolve(input);
   }).call(this);
 };
 
 class Test {
   func(input) {
-    return flow_1(function* func() {
+    return flow(function* func() {
       this.value = yield Promise.resolve(input);
     }).call(this);
   }
 }
 ```
-
-## How to install
-
-```
-npm i ts-transform-async-to-mobx-flow -D
-```
-
-or
-
-```
-yarn add ts-transform-async-to-mobx-flow -D
-```
-
-## How to use
-
-You may need to add a reference to this package's typescript definition file in order to declare the global `flow` function:
-
-```ts
-/// <reference path="node_modules/ts-transform-async-to-mobx-flow/flow.d.ts" />
-```
-
-It can be added to a `global.d.ts` file to access `flow` in all the project files.
 
 ### With [ttypescript](https://github.com/cevek/ttypescript)
 
@@ -96,7 +76,7 @@ It can be added to a `global.d.ts` file to access `flow` in all the project file
 {
   "compilerOptions": {
     "...": "...",
-    "plugins": [{ "transform": "ts-transform-async-to-mobx-flow", "type": "config" }]
+    "plugins": [{ "transform": "@crayonzx/mobx-utils/lib/ts-transform-async-to-flow-generator", "type": "config" }]
   }
 }
 ```
@@ -105,7 +85,7 @@ It can be added to a `global.d.ts` file to access `flow` in all the project file
 
 ```js
 // webpack.config.js
-const tsTransformAsyncToMobxFlow = require('ts-transform-async-to-mobx-flow').default;
+const tsTransformAsyncToMobxFlow = require('@crayonzx/mobx-utils/lib/ts-transform-async-to-flow-generator').default;
 
 module.exports = {
   // ...
@@ -134,14 +114,14 @@ module.exports = {
 {
   "compilerOptions": {
     "...": "...",
-    "plugins": [{ "transform": "ts-transform-async-to-mobx-flow", "type": "config" }]
+    "plugins": [{ "transform": "@crayonzx/mobx-utils/lib/ts-transform-async-to-flow-generator", "type": "config" }]
   }
 }
 ```
 
 ```js
 // webpack.config.js
-const tsTransformAsyncToMobxFlow = require('ts-transform-async-to-mobx-flow').default;
+const tsTransformAsyncToMobxFlow = require('@crayonzx/mobx-utils/lib/ts-transform-async-to-flow-generator').default;
 
 module.exports = {
   // ...
@@ -173,7 +153,7 @@ Alternatively, using `ts-jest` `astTransformers`. At the moment, there is no off
     "globals": {
       "ts-jest": {
         "astTransformers": [
-          "ts-transform-async-to-mobx-flow"
+          "@crayonzx/mobx-utils/lib/ts-transform-async-to-flow-generator"
         ]
       }
     },

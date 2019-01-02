@@ -1,4 +1,3 @@
-import "@crayonzx/mobx-utils";
 import { flow } from 'mobx';
 import { flow as asyncAction } from 'mobx';
 
