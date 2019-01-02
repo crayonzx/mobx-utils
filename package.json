@@ -1,8 +1,12 @@
 {
   "name": "@crayonzx/mobx-utils",
   "description": "Typescript transformer for converting async functions into generators wrapped with mobx.flow",
-  "repository": "git@github.com:aurornz/ts-transform-async-to-mobx-flow.git",
+  "repository": "https://github.com/crayonzx/mobx-utils.git",
   "author": "Auror <developers@auror.co>",
+  "contributors": [
+    "Auror <developers@auror.co>",
+    "crayonzx <crayon.zx@gmail.com> (https://github.com/crayonzx)"
+  ],
   "private": true,
   "license": "MIT",
   "keywords": [

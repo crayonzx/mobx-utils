@@ -1,15 +1,16 @@
 {
   "name": "@crayonzx/mobx-utils-examples",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": "Auror <developers@auror.co>",
+  "contributors": [
+    "Auror <developers@auror.co>",
+    "crayonzx <crayon.zx@gmail.com> (https://github.com/crayonzx)"
+  ],
   "license": "MIT",
   "main": "lib/index.js",
-  "repository": "git@github.com:aurornz/ts-transform-async-to-mobx-flow.git",
+  "repository": "https://github.com/crayonzx/mobx-utils.git",
   "scripts": {
     "build": "rimraf lib && ttsc"
-  },
-  "bugs": {
-    "url": "https://github.com/aurornz/ts-transform-async-to-mobx-flow/issues"
   },
   "devDependencies": {
     "rimraf": "^2.6.2",

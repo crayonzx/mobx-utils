@@ -1,6 +1,6 @@
 {
   "name": "@crayonzx/mobx-utils",
-  "version": "0.0.8",
+  "version": "1.0.0",
   "description": "Typescript transformer for converting async functions into generators wrapped with mobx.flow",
   "keywords": [
     "mobx",
@@ -8,7 +8,11 @@
     "typescript-transformer"
   ],
   "author": "Auror <developers@auror.co>",
-  "homepage": "https://github.com/aurornz/ts-transform-async-to-mobx-flow#readme",
+  "contributors": [
+    "Auror <developers@auror.co>",
+    "crayonzx <crayon.zx@gmail.com> (https://github.com/crayonzx)"
+  ],
+  "homepage": "https://github.com/crayonzx/mobx-utils#readme",
   "license": "MIT",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -21,14 +25,12 @@
     "lib",
     "src"
   ],
-  "repository": "git@github.com:aurornz/ts-transform-async-to-mobx-flow.git",
+  "repository": "https://github.com/crayonzx/mobx-utils.git",
   "scripts": {
     "build": "rimraf lib && tsc",
     "test": "jest",
-    "prepare": "npm run build && cp ../../README.md ./README.md"
-  },
-  "bugs": {
-    "url": "https://github.com/aurornz/ts-transform-async-to-mobx-flow/issues"
+    "copy": "cpy ../../README.md . && cpy ../../LICENSE .",
+    "prepare": "npm run build && npm run copy"
   },
   "jest": {
     "transform": {
@@ -45,6 +47,7 @@
     ]
   },
   "devDependencies": {
+    "cpy-cli": "^2.0.0",
     "rimraf": "^2.6.2"
   }
 }
